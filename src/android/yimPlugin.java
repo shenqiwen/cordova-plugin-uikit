@@ -43,8 +43,8 @@ public class yimPlugin extends CordovaPlugin {
 //                public void onSuccess(LoginInfo param) {
 //                    Log.i("SQW", "登陆聊天服务器成功！");
 //                    //   启动单聊界面
-//                    //    NimUIKit.startP2PSession( yimPlugin.this.cordova.getActivity().getApplication() , "admin");
-//                    //        NimUIKit.startTeamSession(MainActivity.this, "13434751");
+//                    //    NimUIKit.startP2PSession( yimPlugin.this.cordova.getActivity().getApplication() , "对方云信ID");
+//                    //        NimUIKit.startTeamSession(MainActivity.this, "云信群聊ID");
 //                }
 //
 //                @Override

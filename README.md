@@ -15,7 +15,7 @@
  cordova.plugins.yimPlugin.login('云信ID','云信密码',function(e){alert(e);},function(e){console.log(e);});
  
 // 聊天 参数 : 对方云信ID、0为单聊、1为群聊 后两个参数暂时没有用上 
- cordova.plugins.yimPlugin.chat('xiaozhou',0,'leftRole','rightRole',function(e){alert(e);},function(e){console.log(e);});
+ cordova.plugins.yimPlugin.chat('对方云信ID',0,'leftRole','rightRole',function(e){alert(e);},function(e){console.log(e);});
  
 ```
 # 注意事项

@@ -1,7 +1,7 @@
 # 基于网易云信 uikit库 和 官方IM Demo集成的 Cordova 聊天插件(云信IM SDK4.0.0)
 
 # 支持的平台
- 仅Android
+  仅Android
 
 # 主要功能
  1. 开启聊天界面(单聊与群聊)

@@ -18,8 +18,9 @@
  cordova.plugins.yimPlugin.chat('对方云信ID',0,'leftRole','rightRole',function(e){alert(e);},function(e){console.log(e);});
  
 ```
-# 注意事项
+# 注意事项(需要手动更改)
  1. 插件安装完毕后需要修改插件内里所有文件的.R引用改为自己项目的包名 本插件包名为: com.rsc.yim.plugin
  
  2. 插件安装完毕后在plugin.xml 配置文件内 添加 高德地图和云信IM的key
  
+ 3. 在将此插件添加至Android平台后需要在 platforms/android 路径下找到清单文件 AndroidManifest.xml 在此文件内将 application组件 添加名字如:             android:name="com.rsc.yim.plugin.NimApplication"

@@ -1,0 +1,957 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin xmlns:android="http://schemas.android.com/apk/res/android" id="com.rsc.yim.plugin" version="1.0.0"
+    xmlns="http://apache.org/cordova/ns/plugins/1.0">
+    <name>yimPlugin</name>
+    <js-module name="yimPlugin" src="www/yimPlugin.js">
+        <clobbers target="cordova.plugins.yimPlugin" />
+    </js-module>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="yimPlugin">
+                <param name="android-package" value="com.rsc.yim.plugin.yimPlugin" />
+            </feature>
+        </config-file>
+
+        <!--  权限相关-->
+        <config-file parent="/manifest" target="AndroidManifest.xml">
+
+            <!-- 网络相关 -->
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+            <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+            <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+            <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+            <!-- 控制呼吸灯，振动器等，用于新消息提醒 -->
+            <uses-permission android:name="android.permission.FLASHLIGHT" />
+            <uses-permission android:name="android.permission.VIBRATE" />
+            <!-- 外置存储存取权限 -->
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <!-- 多媒体相关 -->
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <!-- 如果需要实时音视频通话模块，下面的权限也是必须的。否则，可以不加 -->
+            <uses-permission android:name="android.permission.BLUETOOTH" />
+            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+            <uses-feature android:name="android.hardware.camera.autofocus" />
+            <uses-feature android:glEsVersion="0x00020000" android:required="true" />
+
+        </config-file>
+
+        <!--&lt;!&ndash; application  配置&ndash;&gt;-->
+        <!--<config-file parent="/manifest" target="AndroidManifest.xml">-->
+
+            <!--<application-->
+                <!--android:name="com.rsc.yim.plugin.NimApplication"-->
+                <!--android:hardwareAccelerated="true"-->
+                <!--android:icon="@mipmap/icon"-->
+                <!--android:label="@string/app_name"-->
+                <!--android:supportsRtl="true">-->
+            <!--</application>-->
+
+        <!--</config-file>-->
+
+        <!-- application 内的 配置-->
+        <config-file parent="/manifest/application" target="AndroidManifest.xml">
+            <!-- 会话窗口 -->
+            <!-- UI组件中包含了语音选文字功能，该界面是全屏显示，为了视觉上的美观，该界面主题ActionBar使用Overlay模式。
+                 如果开发者不需要该功能或效果，使用普通主题即可。 同时，还需要将message_activity.xml这个layout中的根节点的paddingTop去掉。 -->
+            <activity
+                android:name="com.netease.nim.uikit.session.activity.P2PMessageActivity"
+                android:configChanges="keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden|adjustResize" />
+            <activity
+                android:name="com.netease.nim.uikit.session.activity.TeamMessageActivity"
+                android:configChanges="keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden|adjustResize" />
+
+            <!-- 群聊 -->
+            <activity
+                android:name="com.netease.nim.uikit.team.activity.NormalTeamInfoActivity"
+                android:configChanges="keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden|adjustResize" />
+            <activity
+                android:name="com.netease.nim.uikit.team.activity.AdvancedTeamInfoActivity"
+                android:configChanges="keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden|adjustResize" />
+            <activity
+                android:name="com.netease.nim.uikit.team.activity.AdvancedTeamMemberActivity"
+                android:configChanges="keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden|adjustResize" />
+            <activity
+                android:name="com.netease.nim.uikit.team.activity.AdvancedTeamAnnounceActivity"
+                android:configChanges="keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden|adjustResize" />
+            <activity
+                android:name="com.netease.nim.uikit.team.activity.AdvancedTeamMemberInfoActivity"
+                android:configChanges="keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden|adjustResize" />
+            <activity
+                android:name="com.netease.nim.uikit.team.activity.AdvancedTeamNicknameActivity"
+                android:configChanges="keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden|adjustResize" />
+            <activity
+                android:name="com.netease.nim.uikit.team.activity.AdvancedTeamCreateAnnounceActivity"
+                android:configChanges="keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden|adjustResize" />
+            <activity
+                android:name="com.netease.nim.uikit.team.activity.TeamPropertySettingActivity"
+                android:configChanges="keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden|adjustResize" />
+
+            <!-- 联系人选择器 -->
+            <activity
+                android:name="com.netease.nim.uikit.contact_selector.activity.ContactSelectActivity"
+                android:configChanges="keyboardHidden|orientation"
+                android:label="@string/contact_selector"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden|adjustPan" />
+            <activity android:name="com.netease.nim.uikit.team.activity.MessageHistoryActivity"
+                android:configChanges="keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden|adjustResize"
+            />
+            <!-- @ 选择器 -->
+            <activity android:name=".contact.ait.AitContactSelectorActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"/>
+
+            <!-- 照片选择 -->
+            <activity
+                android:name="com.netease.nim.uikit.common.media.picker.activity.PickImageActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar" />
+            <activity
+                android:name="com.netease.nim.uikit.common.media.picker.activity.CropImageActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"/>
+            <activity
+                android:name="com.netease.nim.uikit.common.media.picker.activity.PickerAlbumActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar" />
+            <activity
+                android:name="com.netease.nim.uikit.common.media.picker.activity.PickerAlbumPreviewActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar" />
+            <activity
+                android:name="com.netease.nim.uikit.common.media.picker.activity.PreviewImageFromLocalActivity"
+                android:configChanges="keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="stateHidden|adjustResize"
+                android:theme="@style/AppTheme.NoActionBar"/>
+            <activity
+                android:name="com.netease.nim.uikit.common.media.picker.activity.PreviewImageFromCameraActivity"
+                android:configChanges="keyboardHidden|orientation"
+                android:label="@string/input_panel_take"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateHidden|adjustResize" />
+
+            <!-- 视频 -->
+            <activity
+                android:name="com.netease.nim.uikit.session.activity.CaptureVideoActivity"
+                android:configChanges="keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="stateHidden|adjustResize"
+                android:theme="@style/AppTheme.NoActionBar"/>
+
+            <activity
+                android:name="com.netease.nim.uikit.session.activity.WatchVideoActivity"
+                android:configChanges="keyboardHidden|orientation|screenSize"
+                android:label="@string/video_play"
+                android:theme="@style/DarkTheme" />
+
+            <!-- 查看大图 -->
+            <activity
+                android:name="com.netease.nim.uikit.session.activity.WatchMessagePictureActivity"
+                android:configChanges="keyboardHidden"
+                android:theme="@style/AppTheme.NoActionBar"/>
+
+            <provider
+                android:name="com.netease.nim.uikit.common.media.picker.model.GenericFileProvider"
+                android:authorities="${applicationId}.generic.file.provider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+                <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/provider_paths"/>
+            </provider>
+
+
+            <activity android:name=".team.activity.TeamMemberListActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"/>
+
+
+            <!-- 高德地图 map -->
+            <activity
+                android:name="com.rsc.yim.plugin.LocationAmapActivity"
+                android:configChanges="keyboardHidden|orientation"
+                android:label="@string/location_map"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar" />
+            <activity
+                android:name="com.rsc.yim.plugin.NavigationAmapActivity"
+                android:configChanges="keyboardHidden|orientation"
+                android:label="@string/location_navigate"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar" />
+            <!-- *************************************  第三方服务 key 值 ********************************************     -->
+            <!-- 高德定位 key -->
+            <meta-data
+                android:name="com.amap.api.v2.apikey"
+                android:value="高德地图 key" />
+            <!-- 云信IM key -->
+            <meta-data
+                android:name="com.netease.nim.appKey"
+                android:value="云信IM key" />
+
+            <meta-data
+                android:name="com.netease.nim.uikit.glide.NIMGlideModule"
+                android:value="GlideModule"/>
+
+            <meta-data
+                android:name="com.netease.cosine.target"
+                android:value=""/>
+            <meta-data
+                android:name="com.netease.cosine.target.receiver"
+                android:value="com.netease.nimlib.service.NimReceiver"/>
+
+            <!-- 声明网易云通信后台服务，如需保持后台推送，使用独立进程效果会更好。 -->
+            <service
+                android:name="com.netease.nimlib.service.NimService"
+                android:process=":core"/>
+
+            <!-- 运行后台辅助服务 -->
+            <service
+                android:name="com.netease.nimlib.service.NimService$Aux"
+                android:process=":core"/>
+
+            <!-- 声明网易云通信后台辅助服务 -->
+            <service
+                android:name="com.netease.nimlib.job.NIMJobService"
+                android:exported="true"
+                android:permission="android.permission.BIND_JOB_SERVICE"
+                android:process=":core"/>
+
+            <!-- 网易云通信SDK的监视系统启动和网络变化的广播接收器，用户开机自启动以及网络变化时候重新登录，
+                保持和 NimService 同一进程 -->
+            <receiver android:name="com.netease.nimlib.service.NimReceiver"
+                android:process=":core"
+                android:exported="false">
+                <intent-filter>
+                    <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                    <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                </intent-filter>
+            </receiver>
+
+            <!-- 网易云通信进程间通信 Receiver -->
+            <receiver android:name="com.netease.nimlib.service.ResponseReceiver"/>
+
+            <!-- 网易云通信进程间通信service -->
+            <service android:name="com.netease.nimlib.service.ResponseService"/>
+
+            <!-- 安卓保活配置 -->
+            <service
+                android:name="com.netease.cosine.core.CosineService"
+                android:process=":cosine">
+            </service>
+
+            <receiver
+                android:name="com.netease.cosine.target.CosineReceiver"
+                android:exported="true"
+                android:process=":cosine">
+            </receiver>
+
+        </config-file>
+
+        <!-- 本地代码，有多个文件就写多个source-file，src对应本项目，target对应安装后的目录 -->
+        <!-- 表情资源-->
+        <source-file src="src/android/assets/emoji/default/emoji_00.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_01.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_02.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_03.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_04.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_05.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_06.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_07.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_08.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_09.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_10.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_11.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_12.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_13.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_14.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_15.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_16.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_17.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_18.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_19.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_20.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_21.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_22.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_23.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_24.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_25.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_26.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_27.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_28.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_29.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_30.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_31.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_32.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_33.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_34.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_35.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_36.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_37.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_38.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_39.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_40.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_41.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_42.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_43.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_44.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_45.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_46.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_47.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_48.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_49.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_50.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_51.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_52.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_53.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_54.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_55.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_56.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_57.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_58.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_59.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_60.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_61.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_62.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_63.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_64.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_65.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_66.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_67.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_68.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_69.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_70.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_71.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_72.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_73.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_74.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_75.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_76.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_77.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_78.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_79.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_80.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_81.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_82.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_83.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_84.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_85.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_86.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_87.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_88.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_89.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_90.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_91.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_92.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_93.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_94.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_95.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_96.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_97.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_98.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_99.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_100.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_101.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_102.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_103.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_104.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_105.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_106.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_107.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_108.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_109.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_110.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_111.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_112.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_113.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_114.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_115.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_145.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_160.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_161.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_162.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_163.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_164.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_165.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_166.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/default/emoji_167.png" target-dir="assets/emoji/default" />
+        <source-file src="src/android/assets/emoji/emoji.xml" target-dir="assets/emoji" />
+
+        <source-file src="src/android/assets/pinyin/index.dat" target-dir="assets/pinyin" />
+
+        <!-- jar 包 资源-->
+        <source-file src="src/android/libs/arm64-v8a/libne_audio.so" target-dir="libs/arm64-v8a" />
+        <source-file src="src/android/libs/armeabi-v7a/libne_audio.so" target-dir="libs/armeabi-v7a" />
+        <source-file src="src/android/libs/x86/libne_audio.so" target-dir="libs/x86" />
+        <source-file src="src/android/libs/x86_64/libne_audio.so" target-dir="libs/x86_64" />
+
+        <source-file src="src/android/libs/fastjson-1.1.34.android.jar" target-dir="libs" />
+        <source-file src="src/android/libs/java-json.jar" target-dir="libs" />
+        <source-file src="src/android/libs/nim-avchat-4.0.0.jar" target-dir="libs" />
+        <source-file src="src/android/libs/nim-basesdk-4.0.0.jar" target-dir="libs" />
+        <source-file src="src/android/libs/nim-chatroom-4.0.0.jar" target-dir="libs" />
+        <source-file src="src/android/libs/nim-lucene-4.0.0.jar" target-dir="libs" />
+        <source-file src="src/android/libs/nim-rts-4.0.0.jar" target-dir="libs" />
+
+        <!-- 发送位置消息 新增 3个 -->
+        <source-file src="src/android/libs/AMap_Services_V2.3.1.jar" target-dir="libs" />
+        <source-file src="src/android/libs/Android_2DMap_V2.4.0.jar" target-dir="libs" />
+        <source-file src="src/android/libs/Android_Location_V1.3.1.jar" target-dir="libs" />
+
+        <source-file src="src/android/libs/eventbus-3.0.0.jar" target-dir="libs" />
+
+        <!--<source-file src="src/android/libs/android-support-v4.jar" target-dir="libs" />-->
+
+
+        <!-- 代码 资源-->
+        <source-file src="src/android/netease/nim/uikit" target-dir="src/com/netease/nim" />
+
+        <!-- 最外层 代码资源  9个-->
+        <source-file src="src/android/CustomAttachment.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/CustomAttachParser.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/DemoCache.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/yimPlugin.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/MessageHistoryActivity.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/NimApplication.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/SessionHelper.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/StickerAttachment.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/SystemUtil.java" target-dir="src/com/rsc/yim/plugin" />
+
+        <!-- 最外层 代码资源 新增 27 个(发送位置消息相关)-->
+        <!-- 5 -->
+        <source-file src="src/android/AbstractTaskWorker.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/DefaultTaskManager.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/DefaultTaskRegistry.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/DefaultTaskScheduler.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/DefaultTaskWorker.java" target-dir="src/com/rsc/yim/plugin" />
+        <!-- 10 -->
+        <source-file src="src/android/Handlers.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/IconListAdapter.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/LocationAmapActivity.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/LocationExtras.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/ManagedTask.java" target-dir="src/com/rsc/yim/plugin" />
+        <!-- 15 -->
+        <source-file src="src/android/MapHelper.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/NavigationAmapActivity.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/NimDemoLocationProvider.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/NimGeocoder.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/NimLocation.java" target-dir="src/com/rsc/yim/plugin" />
+        <!-- 20 -->
+        <source-file src="src/android/NimLocationManager.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/Observable.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/ObservableTask.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/Task.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/TaskExecutor.java" target-dir="src/com/rsc/yim/plugin" />
+        <!-- 25 -->
+        <source-file src="src/android/TaskManager.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/TaskManagerRegistry.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/TaskObservable.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/TaskObserver.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/TaskRegistry.java" target-dir="src/com/rsc/yim/plugin" />
+        <!-- 27  -->
+        <source-file src="src/android/TaskScheduler.java" target-dir="src/com/rsc/yim/plugin" />
+        <source-file src="src/android/TaskWorker.java" target-dir="src/com/rsc/yim/plugin" />
+
+
+        <!-- res 资源 color 文件夹-->
+        <source-file src="src/android/res/color/color_green_text_view_selector.xml" target-dir="res/color" />
+        <source-file src="src/android/res/color/color_picker_preview_selector.xml" target-dir="res/color" />
+        <!-- res 资源 drawable 文件夹 -->
+        <!-- 5 个-->
+        <source-file src="src/android/res/drawable/explosion.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/list_item_bg_selecter.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_actionbar_black_bg.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_actionbar_nest_dark_logo.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_align_bottom_green_btn_selector.xml" target-dir="res/drawable" />
+        <!-- 10 个 -->
+        <source-file src="src/android/res/drawable/nim_audio_animation_list_left.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_audio_animation_list_right.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_bg_edittext_rectangle.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_bg_edittext_rectangle_focused.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_bg_edittext_rectangle_normal.xml" target-dir="res/drawable" />
+        <!-- 15 个-->
+        <source-file src="src/android/res/drawable/nim_blue_edit_text_bg.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_bottom_divider_match_parent_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_cameras_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_cancel_record_red_bg.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_contact_list_item_selecter.xml" target-dir="res/drawable" />
+        <!-- 20 个-->
+        <source-file src="src/android/res/drawable/nim_easy_edit_text_dialog_bg.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_emoji_item_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_g_image_preview_white_btn_selecter.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_gray_edit_text_bg.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_list_item_selector.xml" target-dir="res/drawable" />
+        <!-- 25 个-->
+        <source-file src="src/android/res/drawable/nim_message_button_bottom_add_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_message_button_bottom_audio_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_message_button_bottom_emoji_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_message_button_bottom_send_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_message_button_bottom_text_selector.xml" target-dir="res/drawable" />
+        <!-- 30 个-->
+        <source-file src="src/android/res/drawable/nim_message_item_left_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_message_item_right_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_message_item_round_bg.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_message_plus_location_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_message_plus_photo_selector.xml" target-dir="res/drawable" />
+        <!-- 35 个-->
+        <source-file src="src/android/res/drawable/nim_message_plus_video_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_message_unread_news_icon_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_message_view_bottom.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_nim_action_bar_button_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_picker_preview_btn_selector.xml" target-dir="res/drawable" />
+        <!-- 40 个-->
+        <source-file src="src/android/res/drawable/nim_play_btn_select.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_popup_menu_item_black_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_popup_menu_item_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_portrait_mask_round.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_portrait_mask_square.xml" target-dir="res/drawable" />
+        <!-- 45 个-->
+        <source-file src="src/android/res/drawable/nim_progress_bar_background.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_progress_bar_foreground.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_progress_small_white.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_recent_contact_sticky_selecter.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_red_round_button_selector.xml" target-dir="res/drawable" />
+        <!-- 50 个-->
+        <source-file src="src/android/res/drawable/nim_robot_link_view_press_round.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_robot_link_view_round.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_robot_link_view_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_semitransparency_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_sticker_button_background_normal_layer_list.xml" target-dir="res/drawable" />
+        <!-- 55 个-->
+        <source-file src="src/android/res/drawable/nim_sticker_button_background_pressed_layer_list.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_team_create_btn_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_team_member_add_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_team_member_delete_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/nim_video_play_icon_selector.xml" target-dir="res/drawable" />
+        <!-- 3个 -->
+        <source-file src="src/android/res/drawable/nim_view_pager_indicator_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/sample_footer_loading_progress.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable/touch_bg.xml" target-dir="res/drawable" />
+        <!-- 发送位置消息新增 -->
+        <source-file src="src/android/res/drawable/btn_location_selector.xml" target-dir="res/drawable" />
+
+        <!-- res资源 drawable hdpi文件夹 -->
+        <!-- 5个 -->
+        <source-file src="src/android/res/drawable-hdpi/explosion_five.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/explosion_four.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/explosion_one.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/explosion_three.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/explosion_two.png" target-dir="res/drawable-hdpi" />
+        <!-- 10 个-->
+        <source-file src="src/android/res/drawable-hdpi/nim_actionbar_dark_back_icon.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_actionbar_dark_logo_icon.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_actionbar_search_dark_icon.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_actionbar_white_back_icon.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_arrow_right.png" target-dir="res/drawable-hdpi" />
+        <!-- 15 个 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_audio_animation_list_left_1.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_audio_animation_list_left_2.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_audio_animation_list_left_3.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_audio_animation_list_right_1.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_audio_animation_list_right_2.png" target-dir="res/drawable-hdpi" />
+        <!-- 20个 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_audio_animation_list_right_3.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_avatar_default.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_avatar_group.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_bg_message_tip.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_cameras.png" target-dir="res/drawable-hdpi" />
+        <!-- 25 个 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_cameras_hover.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_contact_checkbox_checked_green.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_contact_checkbox_checked_grey.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_contact_checkbox_unchecked.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_contact_hit_letter_bg.png" target-dir="res/drawable-hdpi" />
+        <!-- 30 个 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_contact_letter_view_hit_point.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_contact_select_dot_avatar.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_default_img.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_default_img_failed.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_dialog_toast_bg.png" target-dir="res/drawable-hdpi" />
+        <!-- 35 个 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_emoji_ck_bg.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_emoji_del.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_emoji_icon.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_emoji_icon_inactive.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_g_download_progress_bar.9.png" target-dir="res/drawable-hdpi" />
+        <!-- 40个 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_g_download_progress_bar_bg.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_g_unread_badge.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_grey_delete_icon.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_ic_failed.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_ic_message_actionbar_team.png" target-dir="res/drawable-hdpi" />
+        <!-- 45 个-->
+        <source-file src="src/android/res/drawable-hdpi/nim_ic_messge_history.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_ic_trans_fail.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_icon_download_pause.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_icon_download_resume.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_icon_edit_delete.png" target-dir="res/drawable-hdpi" />
+        <!-- 50 个 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_icon_reddot.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_image_default.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_image_download_failed.jpg" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_loading_small_white.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_activity_top_tip.9.png" target-dir="res/drawable-hdpi" />
+        <!-- 55 个 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_message_audio_playing_left_blue_bg.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_audio_playing_right_blue_bg.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_input_edittext_box.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_input_edittext_box_pressed.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_input_emotion.png" target-dir="res/drawable-hdpi" />
+        <!-- 60 个 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_message_input_emotion_pressed.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_input_keyboard.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_input_keyboard_pressed.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_input_plus.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_input_plus_pressed.png" target-dir="res/drawable-hdpi" />
+        <!-- 65 个 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_message_input_send_normal.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_input_send_pressed.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_input_voice_normal.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_input_voice_pressed.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_left_white_bg.9.png" target-dir="res/drawable-hdpi" />
+        <!-- 70 个 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_message_left_white_bg_pressed.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_plus_location_normal.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_plus_location_pressed.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_plus_photo_normal.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_plus_photo_pressed.png" target-dir="res/drawable-hdpi" />
+        <!-- 75 个 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_message_plus_video_normal.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_plus_video_pressed.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_right_blue_bg.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_right_blue_bg_pressed.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_message_unread_news_icon_pressed.png" target-dir="res/drawable-hdpi" />
+        <!-- 80 个 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_messages_list_empty_bg.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_moon_page_selected.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_moon_page_unselected.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_music_icon_play.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_new_message_notify.png" target-dir="res/drawable-hdpi" />
+        <!-- 85 个 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_picker_image_normal.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_picker_image_selected.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_picker_orignal_checked.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_picker_orignal_normal.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_picker_preview_disable.png" target-dir="res/drawable-hdpi" />
+        <!-- 90 个 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_picker_preview_normal.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_picker_preview_pressed.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_picker_preview_unselected.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_popup_menu_bg.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_recent_contact_ic_sending.png" target-dir="res/drawable-hdpi" />
+        <!-- 95 个 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_red_round_button.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_red_round_button_pressed.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_robot_link_view_bg.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_robot_link_view_press_bg.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_scrollbar_handle_holo_dark.9.png" target-dir="res/drawable-hdpi" />
+        <!-- 100 个 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_slide_toggle.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_slide_toggle_off.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_slide_toggle_on.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_team_admin_icon.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_team_create_btn.9.png" target-dir="res/drawable-hdpi" />
+        <!-- 105 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_team_create_btn_pressed.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_team_member_add_normal.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_team_member_add_pressed.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_team_member_delete_normal.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_team_member_delete_pressed.png" target-dir="res/drawable-hdpi" />
+        <!-- 110 个 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_team_member_item_delete_icon.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_team_owner_icon.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_unsupport_mime_type.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_video_capture_start_btn.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_video_capture_stop_btn.png" target-dir="res/drawable-hdpi" />
+        <!-- 5 个 -->
+        <source-file src="src/android/res/drawable-hdpi/nim_video_play_icon.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_video_play_icon_pressed.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_watch_video_download_progress_background.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/nim_watch_video_download_progress_foreground.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/sample_footer_loading.png" target-dir="res/drawable-hdpi" />
+        <!-- 发送位置消息新增 4个 -->
+        <source-file src="src/android/res/drawable-hdpi/btn_loaction_normal.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/btn_loaction_pressed.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/marker_info_bg.9.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/pin.png" target-dir="res/drawable-hdpi" />
+
+        <!-- res 资源  xhdpi 文件夹-->
+        <!--  10个 -->
+        <source-file src="src/android/res/drawable-xhdpi/nim_actionbar_dark_back_icon.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_actionbar_dark_logo_icon.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_actionbar_search_dark_icon.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_actionbar_white_back_icon.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_audio_animation_list_left_1.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_audio_animation_list_left_2.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_audio_animation_list_left_3.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_audio_animation_list_right_1.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_audio_animation_list_right_2.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_audio_animation_list_right_3.png" target-dir="res/drawable-xhdpi" />
+        <!-- 15 个 -->
+        <source-file src="src/android/res/drawable-xhdpi/nim_avatar_group.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_cameras.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_cameras_hover.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_contact_checkbox_checked_green.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_contact_checkbox_unchecked.png" target-dir="res/drawable-xhdpi" />
+        <!-- 20 个 -->
+        <source-file src="src/android/res/drawable-xhdpi/nim_contact_select_dot_avatar.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_g_ic_failed_small.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_ic_trans_fail.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_icon_edit_delete.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_image_default.png" target-dir="res/drawable-xhdpi" />
+        <!-- 25 个 -->
+        <source-file src="src/android/res/drawable-xhdpi/nim_location_bk.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_main_tab_new_message_notify.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_message_input_emotion.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_message_input_emotion_pressed.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_message_input_keyboard.png" target-dir="res/drawable-xhdpi" />
+        <!-- 30 个 -->
+        <source-file src="src/android/res/drawable-xhdpi/nim_message_input_keyboard_pressed.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_message_input_plus.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_message_input_plus_pressed.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_message_input_voice_normal.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_message_input_voice_pressed.png" target-dir="res/drawable-xhdpi" />
+        <!-- 35 个 -->
+        <source-file src="src/android/res/drawable-xhdpi/nim_message_unread_news_icon_normal.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_moon_page_selected.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_moon_page_unselected.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_music_icon_play.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_new_message_notify.png" target-dir="res/drawable-xhdpi" />
+        <!-- 40 个 -->
+        <source-file src="src/android/res/drawable-xhdpi/nim_picker_image_normal.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_picker_image_selected.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_picker_orignal_checked.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_picker_orignal_normal.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_picker_preview_disable.png" target-dir="res/drawable-xhdpi" />
+        <!-- 45 个 -->
+        <source-file src="src/android/res/drawable-xhdpi/nim_picker_preview_normal.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_picker_preview_pressed.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_picker_preview_unselected.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_record_start.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_record_video.png" target-dir="res/drawable-xhdpi" />
+        <!-- 50 个 -->
+        <source-file src="src/android/res/drawable-xhdpi/nim_team_admin_icon.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_team_member_add_normal.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_team_member_add_pressed.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_team_member_delete_normal.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_team_member_delete_pressed.png" target-dir="res/drawable-xhdpi" />
+        <!-- 55 个 -->
+        <source-file src="src/android/res/drawable-xhdpi/nim_team_owner_icon.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_video_capture_start_btn.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_video_capture_stop_btn.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_video_play_icon.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/nim_video_play_icon_pressed.png" target-dir="res/drawable-xhdpi" />
+        <!-- 发送位置消息新增 2个 -->
+        <source-file src="src/android/res/drawable-xhdpi/btn_loaction_normal.png" target-dir="res/drawable-xhdpi" />
+        <source-file src="src/android/res/drawable-xhdpi/btn_loaction_pressed.png" target-dir="res/drawable-xhdpi" />
+
+        <!-- res资源  layout 文件夹 -->
+        <!-- 5个 -->
+        <source-file src="src/android/res/layout/image_layout_multi_touch.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/mass_message_activity.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/message_history_activity.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_action_bar_custom_view.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_action_bar_right_clickable_tv.xml" target-dir="res/layout" />
+        <!-- 10 个 -->
+        <source-file src="src/android/res/layout/nim_action_bar_right_picker_preview.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_actions_item_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_advanced_team_announce.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_advanced_team_announce_list_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_advanced_team_create_announce.xml" target-dir="res/layout" />
+        <!-- 15 个 -->
+        <source-file src="src/android/res/layout/nim_advanced_team_create_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_advanced_team_info_activity.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_advanced_team_info_divider_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_advanced_team_member_info_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_advanced_team_nickname_activity.xml" target-dir="res/layout" />
+        <!-- 20 个 -->
+        <source-file src="src/android/res/layout/nim_ait_contact_label_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_ait_contact_robot_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_ait_contact_team_member_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_capture_video_activity.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_contact_loading_frame.xml" target-dir="res/layout" />
+        <!-- 25 个 -->
+        <source-file src="src/android/res/layout/nim_contact_select_area_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_contact_text_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_contacts.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_contacts_abc_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_contacts_count_item.xml" target-dir="res/layout" />
+        <!-- 30 个 -->
+        <source-file src="src/android/res/layout/nim_contacts_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_contacts_select.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_contacts_select_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_crop_image_activity.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_custom_dialog_list_item.xml" target-dir="res/layout" />
+        <!-- 35 个 -->
+        <source-file src="src/android/res/layout/nim_easy_alert_dialog_bottom_button.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_easy_alert_dialog_default_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_easy_alert_dialog_title.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_easy_alert_dialog_with_edit_text.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_easy_alert_dialog_with_listview.xml" target-dir="res/layout" />
+        <!-- 40 个 -->
+        <source-file src="src/android/res/layout/nim_easy_progress_dialog.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_emoji_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_emoji_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_list_activity_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_listview_refresh.xml" target-dir="res/layout" />
+        <!-- 45 个 -->
+        <source-file src="src/android/res/layout/nim_menu_dialog.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_menu_dialog_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_message_activity.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_message_activity_actions_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_message_activity_bottom_layout.xml" target-dir="res/layout" />
+        <!-- 50 个 -->
+        <source-file src="src/android/res/layout/nim_message_activity_text_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_message_fragment.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_message_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_message_item_audio.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_message_item_location.xml" target-dir="res/layout" />
+        <!-- 55 个 -->
+        <source-file src="src/android/res/layout/nim_message_item_name_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_message_item_notification.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_message_item_picture.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_message_item_robot.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_message_item_text.xml" target-dir="res/layout" />
+        <!-- 60 个 -->
+        <source-file src="src/android/res/layout/nim_message_item_thumb_progress_bar_text.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_message_item_unknown.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_message_item_video.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_message_robot_image.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_message_robot_link.xml" target-dir="res/layout" />
+        <!-- 65 个 -->
+        <source-file src="src/android/res/layout/nim_message_robot_text.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_new_message_tip_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_pick_image_activity.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_picker_album_activity.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_picker_image_folder_activity.xml" target-dir="res/layout" />
+        <!-- 70 个 -->
+        <source-file src="src/android/res/layout/nim_picker_image_preview_activity.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_picker_images_fragment.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_picker_photo_grid_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_picker_photofolder_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_popup_menu_black_layout.xml" target-dir="res/layout" />
+        <!-- 75 个 -->
+        <source-file src="src/android/res/layout/nim_popup_menu_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_popup_menu_list_black_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_popup_menu_list_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_preview_image_from_camera_activity.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_preview_image_from_local_activity.xml" target-dir="res/layout" />
+        <!-- 80 个 -->
+        <source-file src="src/android/res/layout/nim_preview_image_layout_multi_touch.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_preview_image_layout_zoom_control.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_read_recipt_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_recent_contact_list_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_recent_contacts.xml" target-dir="res/layout" />
+        <!-- 85 个 -->
+        <source-file src="src/android/res/layout/nim_round_loading_progress_bar.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_sticker_picker_view.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_team_info_activity.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_team_info_divider_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_team_member_grid_layout.xml" target-dir="res/layout" />
+        <!-- 90 个 -->
+        <source-file src="src/android/res/layout/nim_team_member_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_team_member_list_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_team_member_list_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_team_message_activity.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_team_name_activity.xml" target-dir="res/layout" />
+        <!-- 95 个 -->
+        <source-file src="src/android/res/layout/nim_time_text_view_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_user_profile_toggle_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_voice_trans_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_watch_media_download_progress_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_watch_picture_activity.xml" target-dir="res/layout" />
+        <!-- 3 个 -->
+        <source-file src="src/android/res/layout/nim_watch_snapchat_activity.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_watch_video_activity.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/nim_zbra_loading_progress_bar.xml" target-dir="res/layout" />
+        <!--  原res-ptr2 资源 layout 文件夹 3个 -->
+        <source-file src="src/android/res/layout/msg_list_fetch_load_more.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/pull_to_refresh_header_custom.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/simple_load_more.xml" target-dir="res/layout" />
+
+        <!-- 发送位置消息新增 4个 -->
+        <source-file src="src/android/res/layout/amap_marker_window_info.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/icon_list_item.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/map_view_amap_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/map_view_amap_navigation_layout.xml" target-dir="res/layout" />
+
+        <!--  res 资源 menu 文件夹 -->
+        <source-file src="src/android/res/menu/contacts_search_menu.xml" target-dir="res/menu" />
+        <!-- res 资源 raw 文件夹 -->
+        <source-file src="src/android/res/raw/audio_end_tip.wav" target-dir="res/raw" />
+        <!--  res 资源 values 文件夹 -->
+        <source-file src="src/android/res/values/arrays.xml" target-dir="res/values" />
+        <source-file src="src/android/res/values/attrs.xml" target-dir="res/values" />
+        <source-file src="src/android/res/values/colors.xml" target-dir="res/values" />
+        <source-file src="src/android/res/values/dimens.xml" target-dir="res/values" />
+        <source-file src="src/android/res/values/ids.xml" target-dir="res/values" />
+        <source-file src="src/android/res/values/netease_strings.xml" target-dir="res/values" />
+        <source-file src="src/android/res/values/styles_activity.xml" target-dir="res/values" />
+        <source-file src="src/android/res/values/styles_widget.xml" target-dir="res/values" />
+
+        <!-- 原 res-ptr2 资源 values-en 文件夹 -->
+        <source-file src="src/android/res/values-en/netease_strings.xml" target-dir="res/values-en" />
+
+        <!-- 适配7.0 以上手机拍照   -->
+        <source-file src="src/android/res/xml/provider_paths.xml" target-dir="res/xml" />
+
+        <!-- Depend on v21 of appcompat-v7 support library -->
+        <!-- 此处注意 依赖的版本 必须与Cordova 添加的Android 平台版本一致 详见External Libraries (这是个大坑!) -->
+        <!--<framework src="com.android.support:appcompat-v7:25.0.1" />-->
+        <!--<framework src="com.android.support:design:25.0.1" />-->
+
+        <framework src="com.android.support:appcompat-v7:26.0.0-alpha1" />
+        <framework src="com.android.support:design:26.0.0-alpha1" />
+
+        <framework src="com.android.support.constraint:constraint-layout:1.0.2" />
+        <framework src="me.everything:overscroll-decor-android:1.0.4" />
+        <framework src="com.github.bumptech.glide:glide:3.7.0" />
+        <framework src="jp.wasabeef:glide-transformations:2.0.2" />
+
+    </platform>
+</plugin>

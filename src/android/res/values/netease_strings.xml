@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="loading">正在加载中...</string>
+    <string name="load_failed">加载失败，请点我重试</string>
+    <string name="load_end">没有更多数据</string>
+
+
+    <!-- common -->
+    <string name="empty"></string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+    <string name="clear_empty">清空</string>
+    <string name="iknow">知道了</string>
+    <string name="search">搜索</string>
+    <string name="remove">移除</string>
+    <string name="add">添加</string>
+    <string name="create">新建</string>
+    <string name="message_history_query">云消息记录</string>
+    <string name="without_content">暂无</string>
+    <string name="network_is_not_available">网络连接失败，请检查你的网络设置</string>
+    <string name="open">开启</string>
+    <string name="close">关闭</string>
+    <string name="menu">菜单</string>
+    <string name="now_allow_space">不能含有空格</string>
+    <string name="readed">已读</string>
+
+    <!-- session -->
+    <string name="input_panel_photo">图 片</string>
+    <string name="input_panel_video">视 频</string>
+    <string name="input_panel_location">位 置</string>
+    <string name="input_panel_take">拍 摄</string>
+    <string name="im_choose_pic">请选择JPG PNG BMP GIF格式的图片文件</string>
+    <string name="repeat_download_message">重新下载?</string>
+    <string name="repeat_send_has_blank">重 发</string>
+    <string name="repeat_send_message">重发消息?</string>
+    <string name="copy_has_blank">复 制</string>
+    <string name="delete_has_blank">删 除</string>
+    <string name="voice_to_text">转文字</string>
+    <string name="forward_to_person">转发到个人</string>
+    <string name="forward_to_team">转发到群组</string>
+    <string name="withdrawn_msg">撤 回</string>
+    <string name="save">保存</string>
+    <string name="main_msg_list_delete_chatting">删除该聊天</string>
+    <string name="main_msg_list_sticky_on_top">置顶该聊天</string>
+    <string name="main_msg_list_clear_sticky_on_top">取消置顶</string>
+    <string name="save_to_device">保存到手机</string>
+    <string name="picture_save_fail">图片保存失败</string>
+    <string name="picture_save_to">图片已保存到手机</string>
+    <string name="search_join_team">搜索加入群组</string>
+    <string name="file_transfer_state_downloaded">已下载</string>
+    <string name="file_transfer_state_undownload">未下载</string>
+    <string name="trans_voice_failed">语音转化失败</string>
+    <string name="team_invalid_tip">您已退出该群</string>
+    <string name="normal_team_invalid_tip">您已退出该讨论组</string>
+    <string name="team_send_message_not_allow">您已不在该群，不能发送消息</string>
+    <string name="send">发送</string>
+    <string name="unsupport_title">无法显示该内容</string>
+    <string name="unsupport_desc">客户端版本不支持该内容</string>
+    <string name="revoke_failed">发送时间超过2分钟的消息，不能被撤回</string>
+
+    <!-- 语音 -->
+    <string name="record_audio">按住 说话</string>
+    <string name="record_audio_end">松开  结束</string>
+    <string name="sdcard_not_exist_error">请插入SD卡</string>
+    <string name="recording_error">录音失败，请重试</string>
+    <string name="recording_init_failed">初始化录音失败</string>
+    <string name="recording_cancel">手指上滑，取消发送</string>
+    <string name="timer_default">00:00</string>
+    <string name="recording_cancel_tip">松开手指，取消发送</string>
+    <string name="recording_max_time">录音达到最大时间，是否发送？</string>
+
+    <!-- 拍照视频 -->
+    <string name="gallery_invalid">你的手机没有图库程序</string>
+    <string name="sdcard_not_enough_head_error">SD卡被拔出或存储空间不足，无法保存头像</string>
+    <string name="sdcard_not_enough_error">存储空间不足，无法保存此次多媒体消息</string>
+    <string name="download_video">正在下载视频</string>
+    <string name="download_video_fail">视频下载失败,请重试</string>
+    <string name="look_video_fail">无法播放该视频</string>
+    <string name="look_video_fail_try_again">暂时无法播放视频，请重试</string>
+    <string name="video_play">视频播放</string>
+    <string name="video_record">视频录制</string>
+    <string name="video_record_symbol">REC</string>
+    <string name="video_record_begin">开始录制</string>
+    <string name="connect_vedio_device_fail">无法连接视频设备 ，请稍候再试</string>
+    <string name="capture_video_size_in_kb">视频文件大小为: %1$dKB,</string>
+    <string name="capture_video_size_in_mb">视频文件大小为: %1$.2fMB,</string>
+    <string name="is_send_video">是否发送该视频？</string>
+    <string name="start_camera_to_record_failed">启动摄像头录制视频失败</string>
+    <string name="stop_fail_maybe_stopped">停止失败，可能已经停止</string>
+    <string name="video_exception">视频文件异常</string>
+    <string name="im_choose_video_file_size_too_large">视频文件过大，系统限制为20MB</string>
+    <string name="im_choose_video">请选择3GP MP4格式的视频文件</string>
+    <string name="video_record_short">录制视频太短</string>
+    <string name="download_progress_description">%1$s（%2$s/%3$s）</string>
+
+    <!-- 联系人选择器 -->
+    <string name="contact_selector">联系人选择器</string>
+
+    <!-- team -->
+    <string name="team_need_authentication">需要身份验证</string>
+    <string name="team_allow_anyone_join">允许任何人加入</string>
+    <string name="team_not_allow_anyone_join">不允许任何人申请加入</string>
+    <string name="team_admin_invite">管理员邀请</string>
+    <string name="team_everyone_invite">所有人邀请</string>
+    <string name="team_admin_update">管理员修改</string>
+    <string name="team_everyone_update">所有人修改</string>
+    <string name="team_invitee_need_authen">需要验证</string>
+    <string name="team_invitee_not_need_authen">不需要验证</string>
+    <string name="team_nickname">群昵称</string>
+    <string name="team_nickname_none">未填写</string>
+    <string name="team_identity">身份</string>
+    <string name="remove_member">移出本群</string>
+    <string name="team_member_info">成员信息</string>
+    <string name="team_admin">管理员</string>
+    <string name="team_creator">群主</string>
+    <string name="team_member">群成员</string>
+    <string name="update_success">保存成功</string>
+    <string name="update_failed">保存失败, code:%d</string>
+    <string name="no_permission">没有权限</string>
+    <string name="set_team_admin">设为管理员</string>
+    <string name="cancel_team_admin">取消管理员</string>
+    <string name="team_member_remove_confirm">确定要将其移出群组么?</string>
+    <string name="team_annourcement">群公告</string>
+    <string name="invite_member">邀请成员</string>
+    <string name="team_name">群名称</string>
+    <string name="team_introduce">群介绍</string>
+    <string name="team_extension">扩展示例</string>
+    <string name="click_set">点击设置</string>
+    <string name="create_advanced_team">创建高级群</string>
+    <string name="reach_team_member_capacity">成员数量不能超过%1$d</string>
+    <string name="team_authentication">身份验证</string>
+    <string name="team_invite">邀请他人权限</string>
+    <string name="team_info_update">群资料修改权限</string>
+    <string name="team_invitee_authentication">被邀请人身份验证</string>
+    <string name="create_team">创建群</string>
+    <string name="over_team_member_capacity">邀请失败，成员人数上限为%1$d人</string>
+    <string name="over_team_capacity">创建失败，创建群数量达到限制</string>
+    <string name="create_team_failed">创建失败</string>
+    <string name="create_team_success">创建成功</string>
+    <string name="team_announce_title">标题</string>
+    <string name="team_announce_content">公告内容</string>
+    <string name="team_announce_notice">请输入群公告标题</string>
+    <string name="my_team_card">我的群名片</string>
+    <string name="team_introduce_hint">点击填写群介绍</string>
+    <string name="team_extension_hint">点击修改扩展内容</string>
+    <string name="team_announce_hint">点击填写群公告</string>
+    <string name="team_notification_config">消息提醒</string>
+    <string name="team_transfer_without_member">没有可转移的群成员</string>
+    <string name="team_invite_members_success">群成员邀请已发出</string>
+    <string name="team_invite_members_failed">群成员邀请失败</string>
+    <string name="team_transfer_success">群转移成功</string>
+    <string name="team_transfer_failed">群转移失败</string>
+    <string name="quit_team_success">您已退群</string>
+    <string name="quit_team_failed">退群失败</string>
+    <string name="quit_normal_team_success">您已经退出讨论组</string>
+    <string name="quit_normal_team_failed">退出讨论组失败</string>
+    <string name="dismiss_team_success">群已解散</string>
+    <string name="dismiss_team_failed">解散群失败</string>
+    <string name="dismiss_team">解散本群</string>
+    <string name="transfer_team">转让群</string>
+    <string name="quit_team">退出群</string>
+    <string name="quit_normal_team">退出讨论组</string>
+    <string name="team_apply_to_join">申请加入</string>
+    <string name="advanced_team">高级群</string>
+    <string name="normal_team">讨论组</string>
+    <string name="team_name_toast">群名称不能为空</string>
+    <string name="not_allow_empty">不能为空</string>
+    <string name="chat_setting">聊天信息</string>
+    <string name="team_settings_name">设置名称</string>
+    <string name="normal_team_name">讨论组名称</string>
+    <string name="remove_member_success">移除成员成功</string>
+    <string name="remove_member_failed">移除成员失败</string>
+    <string name="invite_member_success">邀请成员成功</string>
+    <string name="invite_member_failed">邀请成员失败</string>
+    <string name="team_create_notice">请添加群成员</string>
+    <string name="team_settings_set_name">取个名字吧</string>
+    <string name="team_not_exist">该群不存在</string>
+    <string name="normal_team_not_exist">该讨论组不存在</string>
+    <string name="mute_msg">设置禁言</string>
+    <string name="set_head_image">设置头像</string>
+    <string name="team_update_cancel">取消更新</string>
+    <string name="team_update_failed">群头像设置失败</string>
+    <string name="reach_capacity">人数已达上限</string>
+    <!-- 消息搜索 -->
+    <string name="message_search_no_result">无结果</string>
+    <string name="message_search_title">查看聊天内容</string>
+
+    <!-- image picker -->
+    <string name="picker_image_preview">预览</string>
+    <string name="picker_image_send">发送</string>
+    <string name="picker_image_folder">相册</string>
+    <string name="picker_image_album_loading">相册加载中…</string>
+    <string name="picker_image_album_empty">相册中没有图片！</string>
+    <string name="picker_image_folder_info">共%d张</string>
+    <string name="picker_image_exceed_max_image_select">最多选择%d张图片！</string>
+    <string name="picker_image_send_select">完成（%d）</string>
+    <string name="picker_image_preview_original">发送原图</string>
+    <string name="picker_image_preview_original_select">发送原图（%s）</string>
+    <string name="picker_image_error">获取图片出错</string>
+    <string name="image_compressed_size">该原始图片大小为: %1$s,</string>
+    <string name="unknow_size">未知大小</string>
+    <string name="is_send_image">是否发送该原始图片？</string>
+    <string name="multi_image_compressed_size">原始图片总大小为: %1$s,</string>
+    <string name="is_send_multi_image">是否发送这些原始图片？</string>
+    <string name="waitfor_image_local">正在打开相册，请稍候\u2026</string>
+    <string name="recapture">重拍</string>
+    <string name="image_show_error">图片显示异常</string>
+    <string name="memory_out">内存不足</string>
+    <string name="choose_from_photo_album">从手机相册选择</string>
+    <string name="choose">选取</string>
+    <string name="edit">编辑</string>
+    <string name="crop">裁剪</string>
+
+    <!-- 消息类型 -->
+    <string name="msg_type_image">图片</string>
+    <string name="msg_type_audio">语音</string>
+
+    <!-- 查看大图 -->
+    <string name="download_picture_fail">图片下载失败</string>
+    <string name="look_up_original_photo_format">查看原图（%s）</string>
+
+    <!--全文检索-->
+    <string name="fts_enable">全文检索(FTS4)</string>
+    <string name="fts_prefix_hit">前缀匹配高亮检索结果</string>
+    <string name="msg_search">全文检索</string>
+    <string name="msg_search_limit">全文检索显示条数</string>
+
+    <!-- ***************************** IM 官方 Demo 全部值**************************************  -->
+
+    <string name="main_tab_session">会话</string>
+    <string name="main_tab_contact">通讯录</string>
+    <string name="user_profile">个人名片</string>
+    <string name="login">登录</string>
+    <string name="logining">登录中\u2026</string>
+    <string name="register">注册</string>
+    <string name="registering">注册中\u2026</string>
+    <string name="agree">同意</string>
+    <string name="reject">拒绝</string>
+    <string name="login_hint_account">请输入帐号</string>
+    <string name="login_hint_password">请输入密码</string>
+    <string name="input_account">请输入帐号，限20位字母或者数字</string>
+    <string name="register_account_tip">帐号限20位字母或者数字</string>
+    <string name="input_nickname">请输入昵称，限10位汉字、字母或者数字</string>
+    <string name="register_nick_name_tip">昵称限10位汉字、字母或者数字</string>
+    <string name="input_password">请输入密码，6~20位字母或者数字</string>
+    <string name="register_password_tip">密码必须为6~20位字母或者数字</string>
+    <string name="register_success">注册成功</string>
+    <string name="register_failed">注册失败,错误码%1$s:%2$s</string>
+    <string name="login_has_account">已有帐号？直接登录</string>
+    <string name="done">完成</string>
+    <string name="latest_message_draft_prefix">[草稿] </string>
+    <string name="main_msg_unread_msg_count">[%d条]</string>
+    <string name="out_time">超时</string>
+    <string name="prepare_data">正在准备数据...</string>
+
+    <string name="about">关于</string>
+    <string name="logout">注销</string>
+    <string name="version">版本号:</string>
+    <string name="account">帐号:</string>
+    <string name="chat">聊天</string>
+    <string name="network_forbidden_login">你被服务器禁止登录，详询客服</string>
+    <string name="verify_reminder">验证提醒</string>
+    <string name="delete_tip">删除提示</string>
+    <string name="delete_system_message">删除该条系统消息？</string>
+    <string name="delete_success">删除成功</string>
+    <string name="clear_all_success">清空成功</string>
+    <string name="login_failed">帐号或密码错误</string>
+    <string name="login_exception">无效输入</string>
+    <string name="kick_out">帐号在其它设备登录</string>
+    <string name="edittext_length_tips">你输入的字数已经超过了限制！</string>
+    <string name="file_transfer">文件云存储</string>
+    <string name="file_browser">文件浏览器</string>
+    <string name="upload_text">上传</string>
+    <string name="download_text">下载</string>
+    <string name="how_to_get_account">如何获取帐号</string>
+    <string name="multi_client_management">多端登录管理</string>
+    <string name="kick_other_client_prompt">踢掉 %1$s</string>
+    <string name="search_advanced_team">搜索高级群</string>
+    <string name="net_broken">当前网络不可用</string>
+    <string name="nim_status_unlogin">未登录</string>
+    <string name="nim_status_connecting">连接中...</string>
+    <string name="nim_status_logining">登录中...</string>
+    <string name="copyright">Copyright ©1997-2017 网易公司版权所有</string>
+    <string name="edit_nick">修改昵称</string>
+    <string name="user_not_exsit">该用户不存在</string>
+    <string name="user_tips">请检查你输入的帐号是否正确</string>
+
+    <!-- session -->
+    <string name="input_panel_guess">猜 拳</string>
+    <string name="input_panel_audio_call">语音通话</string>
+    <string name="input_panel_video_call">视频通话</string>
+    <string name="input_panel_file">发送文件</string>
+    <string name="input_panel_RTS">白 板</string>
+    <string name="input_panel_snapchat">阅后即焚</string>
+    <string name="input_panel_tip">Tip</string>
+    <string name="message_clear">清空本地消息记录</string>
+    <string name="message_info">聊天信息</string>
+
+    <!-- 通讯录 -->
+    <string name="add_friend">加为好友</string>
+    <string name="remove_friend">删除好友</string>
+    <string name="begin_chat">聊天</string>
+    <string name="remove_friend_tip">删除好友后，将同时解除双方的好友关系</string>
+    <string name="remove_friend_success">删除好友成功</string>
+    <string name="add_friend_self_tip">不能添加自己为好友</string>
+    <string name="add_friend_verify_tip">好友验证请求</string>
+    <string name="black_list_tip">你不会接收到列表中联系人的任何消息</string>
+
+    <!-- 群 -->
+    <string name="create_team_activity">创建群聊</string>
+    <string name="add_buddy">添加好友</string>
+    <string name="create_normal_team">创建讨论组</string>
+    <string name="team_apply_sending">发送中…</string>
+    <string name="no_team">您还没有群</string>
+    <string name="no_normal_team">您还没有讨论组</string>
+    <string name="team_search_hint">请输入群号进行搜索</string>
+    <string name="team_number_not_exist">群号不存在</string>
+    <string name="team_join">加入群组</string>
+    <string name="team_join_success">成功加入群: %1$s</string>
+    <string name="team_apply_to_join_send_success">申请已发出</string>
+    <string name="has_exist_in_team">已经在群里</string>
+
+    <!-- 消息提醒 -->
+    <string name="toolbar_mutli_new_msg_tips">个联系人发来新消息</string>
+    <string name="toolbar_new_msg_coming_ticker_text"> 有新消息</string>
+    <string name="toolbar_new_msg_general_tips">你收到一条新消息</string>
+    <string name="toolbar_add_buddy_request_tips">请求添加你为好友</string>
+    <string name="toolbar_add_buddy_verify_tips">通过了你的好友请求</string>
+    <string name="toolbar_new_notification_general_tips">你收到一条新通知</string>
+
+    <!-- 自定义通知 -->
+    <string name="custom_notification">自定义通知</string>
+    <string name="select_custom_notification_target">选择发送对象</string>
+    <string name="send_custom_notification_tip">请输入要发送的内容</string>
+    <string name="send_custom_notification_success">自定义通知发送成功</string>
+    <string name="send_custom_notification_failed">自定义通知发送失败</string>
+    <string name="send_custom_notification_to_buddy">发送给好友</string>
+    <string name="send_custom_notification_to_team">发送给群组</string>
+
+    <!-- 消息类型 -->
+    <string name="title_activity_add_buddy">添加好友</string>
+
+    <!-- location -->
+    <string name="location_init_map_error">初始化地图服务失败</string>
+    <string name="location_navigate">导航</string>
+    <string name="self_location">我在这个位置</string>
+    <string name="location_unable_to_get_you">暂时无法获取您的位置</string>
+    <string name="location_loading">正在定位</string>
+    <string name="location_map">地图定位</string>
+    <string name="my_location">我的位置</string>
+    <string name="location_address_unkown">该位置信息暂无</string>
+    <string name="format_mylocation">我的位置：%s</string>
+    <string name="location_address_fail">获取位置信息失败</string>
+    <string name="tools_selected">选择工具</string>
+    <string name="friends_map_navigation_web">在网页中打开</string>
+    <string name="location_open_map_error">打开地图出错</string>
+
+    <!-- about -->
+    <string name="about_custom_button1">自定义1</string>
+    <string name="about_clear_msg_history">清空所有聊天记录</string>
+    <string name="clear_msg_history_success">聊天记录已清空</string>
+
+    <!-- 云信SDK所需文案 -->
+    <string name="nim_status_bar_multi_messages_incoming">%1$d位联系人有新消息</string>
+    <string name="nim_status_bar_ticker_text">%1$s有新消息</string>
+    <string name="nim_status_bar_image_message">%1$s发来一条图片消息</string>
+    <string name="nim_status_bar_audio_message">%1$s发来一条语音消息</string>
+    <string name="nim_status_bar_video_message">%1$s发来一条视频消息</string>
+    <string name="nim_status_bar_file_message">%1$s发来一条文件消息</string>
+    <string name="nim_status_bar_location_message">%1$s分享了一个地理位置</string>
+    <string name="nim_status_bar_notification_message">%1$s: 通知消息</string>
+    <string name="nim_status_bar_custom_message">%1$s: 自定义消息</string>
+    <string name="nim_status_bar_unsupported_message">%1$s: 无法显示该内容</string>
+    <string name="nim_status_bar_hidden_msg_content">你收到一条新消息</string>
+
+    <!--RTS白板-->
+    <string name="doodle">白板</string>
+    <string name="start_session">正在邀请对方，请稍后</string>
+    <string name="callee_reject">对方拒绝了本次请求</string>
+    <string name="callee_ack_timeout">对方未接受请求</string>
+    <string name="receive_session">对方发起白板演示</string>
+    <string name="start_session_record">我发起了白板演示</string>
+    <string name="session_end_record">白板演示已结束</string>
+    <string name="end_session_tip_head">退出白板演示</string>
+    <string name="end_session_tip_content">退出后，你将不再接收白板演示的消息内容</string>
+    <string name="target_has_leave_session">对方已离开</string>
+    <string name="target_has_end_session">对方结束白板演示</string>
+    <string name="accept_session">接受</string>
+    <string name="reject_session">拒绝</string>
+    <string name="doodle_back">上一步</string>
+    <string name="doodle_clear">清屏</string>
+
+    <!-- setting -->
+    <string name="settings">设置</string>
+    <string name="no_disturb">免打扰</string>
+    <string name="multiport_push">PC/Web在线推送</string>
+    <string name="msg_notice">消息提醒</string>
+    <string name="setting_about">关于</string>
+    <string name="setting_close">已关闭</string>
+    <string name="no_disturb_tips">在设定的时间段内云信消息将不再提醒</string>
+    <string name="time_from">从</string>
+    <string name="time_to">至</string>
+    <string name="time_from_default">22:00</string>
+    <string name="time_to_default">08:00</string>
+    <string name="black_list">黑名单</string>
+    <string name="msg_speaker">听筒模式</string>
+    <string name="ring">响铃模式</string>
+    <string name="led">自定义呼吸灯</string>
+    <string name="notice_content">通知栏标题定制</string>
+    <string name="mass_message">批量消息测试</string>
+    <string name="sqlite_fts">SQLite FTS4</string>
+    <string name="sqlite_like">SQLite LIKE</string>
+    <string name="luc">Lucene</string>
+    <string name="clear_index">清理全文检索缓存</string>
+    <string name="operation_too_frequent">操作太频繁</string>
+    <string name="notification_folded">通知栏折叠</string>
+    <!-- 多端登录 -->
+    <string name="multiport_manager">多端登录管理</string>
+    <string name="multiport_logout">下线</string>
+    <string name="computer_version">云信电脑版</string>
+    <string name="web_version">云信网页版</string>
+    <string name="mobile_version">云信移动版</string>
+    <string name="multiport_logging">正在使用</string>
+    <string name="kickout_notify">下线通知</string>
+    <string name="kickout_content">你的帐号被%1$s踢出下线，请确定帐号信息安全</string>
+
+    <!-- 多端在线类型 -->
+    <string name="on_line">在线</string>
+    <string name="on_line_pc">电脑在线</string>
+    <string name="on_line_web">web在线</string>
+    <string name="client_aos">Android</string>
+    <string name="client_ios">iOS</string>
+    <string name="on_line_busy">忙碌</string>
+    <string name="off_line">离线</string>
+
+    <!-- 阅后即焚 -->
+    <string name="snapchat_longclick_to_view">按住查看</string>
+    <string name="snapchat_title">阅后即焚</string>
+
+    <!-- 个人名片 -->
+    <string name="birthday">生 日</string>
+    <string name="phone">手 机</string>
+    <string name="email">邮 箱</string>
+    <string name="signature">签 名</string>
+    <string name="head">头 像</string>
+    <string name="user_information">个人信息</string>
+    <string name="nickname">昵 称</string>
+    <string name="alias">备注名</string>
+    <string name="gender">性 别</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
+    <string name="other">其他</string>
+    <string name="phone_number">手机号码</string>
+    <string name="user_info_update_success">设置成功</string>
+    <string name="user_info_update_cancel">取消更新</string>
+    <string name="user_info_update_failed">设置失败，请重试</string>
+    <string name="head_update_success">头像设置成功</string>
+    <string name="head_update_failed">头像设置失败，请重试</string>
+    <string name="nickname_empty">昵称不能为空</string>
+
+    <!-- JsBridge -->
+    <string name="js_bridge">NIM JS Bridge</string>
+    <string name="js_bridge_demonstration">Js Bridge演示</string>
+
+    <!--机器人-->
+    <string name="nim_robot_title">云小信机器人</string>
+    <string name="robot_start_chat">开始对话</string>
+
+    <!-- NRTC -->
+    <string name="nrtc_settings">网络通话设置</string>
+    <string name="nrtc_setting_net">网络</string>
+    <string name="nrtc_setting_voe">语音通话</string>
+    <string name="nrtc_setting_vie">视频通话</string>
+    <string name="nrtc_setting_other">其它</string>
+
+    <string name="nrtc_setting_vie_crop_ratio_key">nrtc_setting_vie_crop_ratio_key</string>
+    <string name="nrtc_setting_vie_crop_ratio">画面裁剪比例</string>
+
+    <string-array name="nrtc_setting_vie_crop_ratio_entries"> 
+        <item>原始比例</item> 
+        <item>16:9</item> 
+        <item>4:3</item> 
+        <item>3:2</item> 
+        <item>1:1</item> 
+    </string-array>
+    <string-array name="nrtc_setting_vie_crop_ratio_values"> 
+        <item>0</item> 
+        <item>1</item> 
+        <item>2</item> 
+        <item>3</item> 
+        <item>4</item> 
+    </string-array>
+
+
+    <string name="nrtc_setting_vie_quality_key">nrtc_setting_vie_quality_key</string>
+    <string name="nrtc_setting_vie_quality">视频清晰度</string>
+    <string-array name="nrtc_setting_vie_quality_entries"> 
+        <item>Default</item> 
+        <item>Low</item> 
+        <item>Medium</item> 
+        <item>High</item> 
+        <item>480P</item> 
+        <item>720P</item>
+    </string-array>
+    <string-array name="nrtc_setting_vie_quality_values"> 
+        <item>0</item> 
+        <item>1</item> 
+        <item>2</item> 
+        <item>3</item> 
+        <item>4</item> 
+        <item>5</item> 
+    </string-array>
+    <string-array name="nrtc_setting_vie_hw_encoder_entries"> 
+        <item>自动</item> 
+        <item>禁用</item> 
+        <item>强制</item> 
+    </string-array>
+    <string-array name="nrtc_setting_vie_hw_encoder_values"> 
+        <item>0</item> 
+        <item>1</item> 
+        <item>2</item> 
+    </string-array>
+    <string-array name="nrtc_setting_other_device_rotation_entries"> 
+        <item>0</item> 
+        <item>90</item> 
+        <item>180</item> 
+        <item>270</item> 
+    </string-array>
+    <string-array name="nrtc_setting_other_device_rotation_values"> 
+        <item>0</item> 
+        <item>1</item> 
+        <item>2</item> 
+        <item>3</item> 
+    </string-array>
+    <string-array name="nrtc_setting_vie_hw_decoder_entries"> 
+        <item>自动</item> 
+        <item>禁用</item> 
+        <item>强制</item> 
+    </string-array>
+    <string-array name="nrtc_setting_vie_hw_decoder_values"> 
+        <item>0</item> 
+        <item>1</item> 
+        <item>2</item> 
+    </string-array>
+    <string-array name="nrtc_setting_voe_audio_effect_entries"> 
+        <item>Disable</item> 
+        <item>SDK Built-In</item> 
+        <item>Platform Built-In</item> 
+    </string-array>
+    <string-array name="nrtc_setting_voe_audio_effect_values"> 
+        <item>0</item> 
+        <item>1</item> 
+        <item>2</item> 
+    </string-array>
+    <string name="nrtc_setting_other_device_default_rotation_key">nrtc_setting_other_device_default_rotation_key</string>
+    <string name="nrtc_setting_other_device_default_rotation">设备默认旋转角度(特殊设备使用)</string>
+    <string name="nrtc_setting_other_device_rotation_fixed_offset_key">nrtc_setting_other_device_rotation_fixed_offset_key</string>
+    <string name="nrtc_setting_other_device_rotation_fixed_offset">设备旋转角度修正偏移量(特殊设备使用)</string>
+    <string name="nrtc_setting_vie_rotation_key">nrtc_setting_vie_rotation_key</string>
+    <string name="nrtc_setting_vie_rotation">画面旋转</string>
+    <string name="nrtc_setting_vie_default_front_camera_key">nrtc_setting_vie_default_front_camera_key</string>
+    <string name="nrtc_setting_vie_default_front_camera">默认前置摄像头</string>
+    <string name="nrtc_setting_vie_hw_encoder_key">nrtc_setting_vie_hw_encoder_key</string>
+    <string name="nrtc_setting_vie_hw_encoder">硬件编码(仅部分设备支持)</string>
+    <string name="nrtc_setting_vie_hw_decoder_key">nrtc_setting_vie_hw_decoder_key</string>
+    <string name="nrtc_setting_vie_hw_decoder">硬件解码(仅部分设备支持)</string>
+    <string name="nrtc_setting_other_server_record_audio_key">nrtc_setting_other_server_record_audio_key</string>
+    <string name="nrtc_setting_other_server_record_audio">音频服务器录制</string>
+    <string name="nrtc_setting_other_webrtc_compat_key">setting_other_webrtc_compat_key</string>
+    <string name="nrtc_setting_other_webrtc_compat">WebRTC兼容</string>
+    <string name="nrtc_setting_other_server_record_video_key">nrtc_setting_other_server_record_video_key</string>
+    <string name="nrtc_setting_other_server_record_video">视频服务器录制</string>
+    <string name="nrtc_setting_voe_call_proximity_key">nrtc_setting_voe_call_proximity_key</string>
+    <string name="nrtc_setting_voe_call_proximity">通话期间关闭屏幕</string>
+    <string name="nrtc_setting_voe_muted_key">nrtc_setting_voe_muted_key</string>
+    <string name="nrtc_setting_voe_muted">语音流静音处理</string>
+    <string name="nrtc_setting_vie_muted_key">nrtc_setting_vie_muted_key</string>
+    <string name="nrtc_setting_vie_muted">视频流静音处理</string>
+    <string name="nrtc_setting_vie_fps_reported_key">nrtc_setting_vie_fps_reported_key</string>
+    <string name="nrtc_setting_vie_fps_reported">帧率汇报</string>
+    <string name="nrtc_setting_vie_max_bitrate_key">nrtc_setting_vie_max_bitrate_key</string>
+    <string name="nrtc_setting_vie_max_bitrate">码率(Kbps)</string>
+    <string name="nrtc_setting_voe_audio_aec_key">nrtc_setting_voe_audio_aec_key</string>
+    <string name="nrtc_setting_voe_audio_aec">回音消除</string>
+    <string name="nrtc_setting_voe_audio_ns_key">nrtc_setting_voe_audio_ns_key</string>
+    <string name="nrtc_setting_voe_audio_ns">降噪</string>
+    <string name="nrtc_setting_voe_high_quality_key">nrtc_setting_voe_high_quality_key</string>
+    <string name="nrtc_setting_voe_high_quality">高清语音</string>
+    <string name="nrtc_setting_voe_dtx_key">nrtc_setting_voe_dtx_key</string>
+    <string name="nrtc_setting_voe_dtx">人声检测</string>
+
+
+</resources>

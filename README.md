@@ -1,8 +1,5 @@
 # 基于网易云信 uikit库 和 官方IM Demo集成的 Cordova 聊天插件(云信IM SDK4.0.0)
 
-# 即将更新
-  从聊天界面返回时的回调
-  
 # 支持的平台
   仅Android
 
@@ -20,6 +17,14 @@
 // 聊天 参数 : 对方云信ID、0为单聊、1为群聊 后两个参数暂时没有用上 
  cordova.plugins.yimPlugin.chat('对方云信ID',0,'leftRole','rightRole',function(e){alert(e);},function(e){console.log(e);});
  
+// 注册从聊天界面返回的回调监听
+ cordova.plugins.yimPlugin.addNavigationToHtmlListener(null,function(e){console.log(e);},function(e){console.log(e);});
+ 
+// 聊天界面返回时的回调
+ cordova.plugins.yimPlugin.onNavigationToHtmlCallBack  = function(data){
+             alert(JSON.stringify(data))
+        };
+        
 ```
 # 注意事项(需要手动更改)
  1. 插件安装完毕后需要修改插件内里所有文件的.R引用改为自己项目的包名 本插件包名为: com.rsc.yim.plugin

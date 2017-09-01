@@ -1,5 +1,6 @@
 package com.netease.nim.uikit.session.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,9 @@ import com.netease.nim.uikit.OnlineStateChangeListener;
 import com.rsc.calculation.R;
 import com.netease.nim.uikit.cache.FriendDataCache;
 import com.netease.nim.uikit.model.ToolBarOptions;
+import com.netease.nim.uikit.permission.MPermission;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionDenied;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionGranted;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.fragment.MessageFragment;
@@ -19,11 +23,17 @@ import com.netease.nim.uikit.uinfo.UserInfoHelper;
 import com.netease.nim.uikit.uinfo.UserInfoObservable;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.CustomNotification;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.nimlib.sdk.uinfo.UserService;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -34,7 +44,7 @@ import java.util.Set;
  * Created by huangjun on 2015/2/1.
  */
 public class P2PMessageActivity extends BaseMessageActivity {
-
+    private final int BASIC_PERMISSION_REQUEST_CODE = 110;
     private boolean isResume = false;
 
     public static void start(Context context, String contactId, SessionCustomization customization, IMMessage anchor) {
@@ -53,20 +63,99 @@ public class P2PMessageActivity extends BaseMessageActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        // 从服务器 获取用户资料 用来更新本地数据库 (解决 第一次聊天时 本地数据库没有对方资料的问题)
+        requestInfoFromServer();
         // 单聊特例话数据，包括个人信息，
         requestBuddyInfo();
         displayOnlineState();
         registerObservers(true);
         registerOnlineStateChangeListener(true);
+
+        // 请求权限
+        requestBasicPermission();
     }
+
+    /**
+     * 基本权限管理
+     */
+    private void requestBasicPermission() {
+        MPermission.with(this)
+//                .addRequestCode(BASIC_PERMISSION_REQUEST_CODE)
+                .permissions(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                )
+                .request();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+    }
+
+    @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionSuccess() {
+        Toast.makeText(this, "授权成功", Toast.LENGTH_SHORT).show();
+    }
+
+    @OnMPermissionDenied(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionFailed() {
+        Toast.makeText(this, "授权失败", Toast.LENGTH_SHORT).show();
+    }
+
+    private void requestInfoFromServer() {
+        List<String> list = new ArrayList<String>();
+        list.add(sessionId);
+        NIMClient.getService(UserService.class).fetchUserInfo(list)
+                .setCallback(new RequestCallback<List<NimUserInfo>>() {
+                    @Override
+                    public void onSuccess(List<NimUserInfo> nimUserInfos) {
+
+                    }
+
+                    @Override
+                    public void onFailed(int i) {
+
+                    }
+
+                    @Override
+                    public void onException(Throwable throwable) {
+
+                    }
+                });
+    }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        /**
+         * 当用单聊界面 被销毁时 向插件类发送通知 回调给web界面
+         */
+        EventBus.getDefault().post(new SendP2PMessageActivityFinishEvent(sessionId));
+
         registerObservers(false);
         registerOnlineStateChangeListener(false);
     }
+
+    public class SendP2PMessageActivityFinishEvent {
+        private String toUserID ;// 对方ID
+
+        private SendP2PMessageActivityFinishEvent(String toUserID) {
+            this.toUserID = toUserID;
+        }
+
+        public String getToUserID() {
+            return toUserID;
+        }
+    }
+
 
     @Override
     protected void onResume() {

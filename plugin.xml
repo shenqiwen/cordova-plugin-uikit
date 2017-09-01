@@ -202,7 +202,7 @@
                 android:grantUriPermissions="true">
                 <meta-data
                     android:name="android.support.FILE_PROVIDER_PATHS"
-                    android:resource="@xml/provider_paths"/>
+                    android:resource="@xml/netease_provider_paths"/>
             </provider>
 
 
@@ -938,7 +938,7 @@
         <source-file src="src/android/res/values-en/netease_strings.xml" target-dir="res/values-en" />
 
         <!-- 适配7.0 以上手机拍照   -->
-        <source-file src="src/android/res/xml/provider_paths.xml" target-dir="res/xml" />
+        <source-file src="src/android/res/xml/netease_provider_paths.xml" target-dir="res/xml" />
 
         <!-- Depend on v21 of appcompat-v7 support library -->
         <!-- 此处注意 依赖的版本 必须与Cordova 添加的Android 平台版本一致 详见External Libraries (这是个大坑!) -->

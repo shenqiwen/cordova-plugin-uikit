@@ -7,13 +7,18 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.netease.nim.uikit.session.activity.P2PMessageActivity;
+import com.netease.nim.uikit.session.activity.TeamMessageActivity;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
-
+import org.json.JSONObject;
 /**
  * This class echoes a string called from JavaScript.
  */
@@ -43,8 +48,8 @@ public class yimPlugin extends CordovaPlugin {
 //                public void onSuccess(LoginInfo param) {
 //                    Log.i("SQW", "登陆聊天服务器成功！");
 //                    //   启动单聊界面
-//                    //    NimUIKit.startP2PSession( yimPlugin.this.cordova.getActivity().getApplication() , "对方云信ID");
-//                    //        NimUIKit.startTeamSession(MainActivity.this, "云信群聊ID");
+//                    //    NimUIKit.startP2PSession( yimPlugin.this.cordova.getActivity().getApplication() , "单聊对方ID");
+//                    //        NimUIKit.startTeamSession(MainActivity.this, "群聊 群ID");
 //                }
 //
 //                @Override
@@ -104,9 +109,83 @@ public class yimPlugin extends CordovaPlugin {
             callback.sendPluginResult(result);
 
             return true;
+        }else if (action.equals("addNavigationToHtmlListener")) {  //  从原生界面返回web界面的监听 需要注册
+            PluginResult result = null;
+            //  注册通知
+            EventBus.getDefault().register((CordovaPlugin) this);// 注册
+
+            result = new PluginResult(PluginResult.Status.OK, "注册监听成功");
+            callback.sendPluginResult(result);
+
+            return true;
         }
         return false;
     }
 
+
+    /**
+     * 接收通知 (聊天界面关闭时 单聊)
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN) // 在ui线程执行
+    public void onSendP2PMessageActivityFinishEvent(P2PMessageActivity.SendP2PMessageActivityFinishEvent event) {
+
+        String format = "cordova.plugins.yimPlugin.onNavigationToHtmlCallBack(%s);";
+        JSONObject jExtras = new JSONObject();
+
+        String userid = event.getToUserID();
+        String type = "normal";
+
+        try {
+            jExtras.put("type", type);
+            jExtras.put("user_id", userid);
+            jExtras.put("data", "{}");
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        final String js = String.format(format, jExtras.toString());
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                webView.loadUrl("javascript:" + js);
+            }
+        });
+
+    }
+
+
+    /**
+     * 接收通知 (聊天界面关闭时 群聊)
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN) // 在ui线程执行
+    public void onSendTeamMessageActivityFinishEvent(TeamMessageActivity.SendTeamMessageActivityFinishEvent event) {
+
+        String format = "cordova.plugins.yimPlugin.onNavigationToHtmlCallBack(%s);";
+        JSONObject jExtras = new JSONObject();
+
+        String userid = event.getToUserID();
+        String type = "normal";
+
+        try {
+            jExtras.put("type", type);
+            jExtras.put("user_id", userid);
+            jExtras.put("data", "{}");
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        final String js = String.format(format, jExtras.toString());
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                webView.loadUrl("javascript:" + js);
+            }
+        });
+
+    }
 
 }

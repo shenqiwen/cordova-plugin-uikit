@@ -1,5 +1,6 @@
 package com.netease.nim.uikit.session.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,9 @@ import com.netease.nim.uikit.cache.FriendDataCache;
 import com.netease.nim.uikit.cache.SimpleCallback;
 import com.netease.nim.uikit.cache.TeamDataCache;
 import com.netease.nim.uikit.model.ToolBarOptions;
+import com.netease.nim.uikit.permission.MPermission;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionDenied;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionGranted;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.fragment.MessageFragment;
@@ -25,6 +29,8 @@ import com.netease.nimlib.sdk.team.constant.TeamTypeEnum;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 /**
@@ -33,7 +39,7 @@ import java.util.List;
  * Created by huangjun on 2015/3/5.
  */
 public class TeamMessageActivity extends BaseMessageActivity {
-
+    private final int BASIC_PERMISSION_REQUEST_CODE = 110;
     // model
     private Team team;
 
@@ -73,14 +79,68 @@ public class TeamMessageActivity extends BaseMessageActivity {
         findViews();
 
         registerTeamUpdateObserver(true);
+
+        // 请求权限
+        requestBasicPermission();
+    }
+
+    /**
+     * 基本权限管理
+     */
+    private void requestBasicPermission() {
+        MPermission.with(this)
+//                .addRequestCode(BASIC_PERMISSION_REQUEST_CODE)
+                .permissions(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                )
+                .request();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+    }
+
+    @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionSuccess() {
+        Toast.makeText(this, "授权成功", Toast.LENGTH_SHORT).show();
+    }
+
+    @OnMPermissionDenied(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionFailed() {
+        Toast.makeText(this, "授权失败", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
+        /**
+         * 当用群聊界面 被销毁时 向插件类发送通知 回调给web界面
+         */
+        EventBus.getDefault().post(new SendTeamMessageActivityFinishEvent(sessionId));
+
         registerTeamUpdateObserver(false);
     }
+
+    public class SendTeamMessageActivityFinishEvent {
+        private String toUserID ;// 对方ID
+
+        private SendTeamMessageActivityFinishEvent(String toUserID) {
+            this.toUserID = toUserID;
+        }
+
+        public String getToUserID() {
+            return toUserID;
+        }
+    }
+
 
     @Override
     protected void onResume() {
